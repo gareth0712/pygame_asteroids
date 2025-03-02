@@ -2,6 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import sys
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -33,13 +34,19 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+    
         updateable.update(dt)
+
+        for asteroid in asteroids:
+            if player.collide(asteroid):
+                print("Game over!")
+                return sys.exit()
 
         screen.fill("black")
         
         for d in drawable:
             d.draw(screen)
-        
+    
         pygame.display.flip()
         # why we need to clock.tick(60) / 1000 ?
         # setting at 60 limits the framerate to 60 FPS
